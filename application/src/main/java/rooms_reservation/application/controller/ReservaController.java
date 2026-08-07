@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rooms_reservation.application.model_dto.Estatisticas;
 import rooms_reservation.application.model_dto.Reserva;
 import rooms_reservation.application.service.ReservaService;
 
@@ -28,18 +29,19 @@ public class ReservaController {
     public ResponseEntity<List<Reserva>> listarReservas(){
         List<Reserva> lista = reservaService.listarReservas();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(lista);
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
     @GetMapping("/estatisticas")
-    public ResponseEntity<List<Reserva>> listarEstastisticasDia(){
+    public ResponseEntity<Estatisticas> listarEstastisticasDia(){
+        Estatisticas estatisticas = reservaService.listarEstatisticasDia();
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.OK).body(estatisticas);
     }
 
     @DeleteMapping("/reservas")
     public ResponseEntity<Void> deletarReservas(){
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        reservaService.limpar();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

@@ -1,13 +1,16 @@
 package rooms_reservation.application.service.impl;
 
 import org.springframework.stereotype.Service;
+import rooms_reservation.application.model_dto.Estatisticas;
 import rooms_reservation.application.model_dto.Reserva;
 import rooms_reservation.application.repository.ReservaRepository;
 import rooms_reservation.application.service.ReservaService;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ReservaServiceImpl implements ReservaService {
@@ -55,6 +58,7 @@ public class ReservaServiceImpl implements ReservaService {
         if(! (inicio.getMinute() % 30 == 0 && inicio.getSecond() == 0)){
             throw new IllegalArgumentException("Reservas devem ter início em intervalos de 30 minutos (ex: 10:00, 10:30)");
         }
+
 //        long inicioEmMinutos = (inicio.toEpochSecond() / 60);
 //        if(! (inicioEmMinutos % 30 == 0)){
 //        Abortado para facilitar legibilidade.
@@ -64,7 +68,48 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<Reserva> listarReservas(){
-        return reservaRepository.buscarTodas();
+    }
+
+    @Override
+    public Estatisticas listarEstatisticasDia(){
+        List<Reserva> lista = reservaRepository.buscarData(OffsetDateTime.now().toLocalDate());
+
+        if (lista == null || lista.isEmpty()) {
+            return Estatisticas.builder()
+                    .countReservas(0)
+                    .salasUtilizadas(0)
+                    .tempoTotalReservadoMinutos(0L)
+                    .mediaDuracaoMinutos(0.0)
+                    .maiorDuracaoMinutos(0L)
+                    .build();
+        }
+
+        Set<String> salasUnicas = new HashSet<>();
+        int totalReservas = lista.size();
+        int salasEmUso = 0;
+        long tempoEmUso = 0;
+        double mediaDuracaoMin = 0;
+        long maxDuracaoMin = 0;
+
+        for(Reserva reserva : lista){
+
+            long duracaoMinutos = (reserva.getFim().toEpochSecond() - reserva.getInicio().toEpochSecond()) / 60;
+            tempoEmUso += duracaoMinutos;
+
+            if(duracaoMinutos >= maxDuracaoMin) { maxDuracaoMin = duracaoMinutos; }
+            salasUnicas.add(reserva.getSala().toString());
+
+        }
+
+        salasEmUso = salasUnicas.size();
+        mediaDuracaoMin = (double) tempoEmUso / totalReservas;
+
+        return Estatisticas.builder()
+                .maiorDuracaoMinutos(maxDuracaoMin)
+                .mediaDuracaoMinutos(new BigDecimal(mediaDuracaoMin).setScale(2, RoundingMode.HALF_UP).doubleValue())
+                .salasUtilizadas(salasEmUso)
+                .countReservas(totalReservas)
+                .tempoTotalReservadoMinutos(tempoEmUso).build();
     }
 
     @Override

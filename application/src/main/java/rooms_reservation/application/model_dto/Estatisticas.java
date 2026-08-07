@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class Estastisticas {
+public class Estatisticas {
 
     private int countReservas;
 
@@ -18,6 +18,6 @@ public class Estastisticas {
 
     private double mediaDuracaoMinutos;
 
-    private double maiorDuracaoMinutos;
+    private long maiorDuracaoMinutos;
 
 }
