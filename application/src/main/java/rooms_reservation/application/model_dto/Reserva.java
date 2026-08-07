@@ -1,5 +1,6 @@
-package rooms_reservation.application.dto;
+package rooms_reservation.application.model_dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -23,9 +24,11 @@ public class Reserva {
     private String responsavel;
 
     @NotNull(message = "Campo inicio vazio ou zerado")
+    @JsonFormat(without = JsonFormat.Feature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
     private OffsetDateTime inicio;
 
     @NotNull(message = "Campo fim vazio ou zerado")
+    @JsonFormat(without = JsonFormat.Feature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
     private OffsetDateTime fim;
 
 }

@@ -1,7 +1,7 @@
 package rooms_reservation.application.repository.impl;
 
 import org.springframework.stereotype.Repository;
-import rooms_reservation.application.dto.Reserva;
+import rooms_reservation.application.model_dto.Reserva;
 import rooms_reservation.application.repository.ReservaRepository;
 
 import java.time.LocalDate;

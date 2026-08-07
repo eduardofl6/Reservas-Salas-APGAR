@@ -1,4 +1,4 @@
-package rooms_reservation.application.dto;
+package rooms_reservation.application.model_dto;
 
 import lombok.*;
 

@@ -1,12 +1,13 @@
 package rooms_reservation.application.service.impl;
 
 import org.springframework.stereotype.Service;
-import rooms_reservation.application.dto.Reserva;
+import rooms_reservation.application.model_dto.Reserva;
 import rooms_reservation.application.repository.ReservaRepository;
 import rooms_reservation.application.service.ReservaService;
 
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Service
 public class ReservaServiceImpl implements ReservaService {
@@ -28,6 +29,7 @@ public class ReservaServiceImpl implements ReservaService {
 
         LocalTime abertura = LocalTime.of(8, 0);
         LocalTime fechamento = LocalTime.of(18, 0);
+
 
         if(horaInicio.isBefore(abertura) || horaInicio.isAfter(fechamento)) {
             throw new IllegalArgumentException("O horário de início deve estar entre 08:00 e 18:00.");
@@ -58,6 +60,11 @@ public class ReservaServiceImpl implements ReservaService {
 //        Abortado para facilitar legibilidade.
 
         reservaRepository.salvar(reserva);
+    }
+
+    @Override
+    public List<Reserva> listarReservas(){
+        return reservaRepository.buscarTodas();
     }
 
     @Override

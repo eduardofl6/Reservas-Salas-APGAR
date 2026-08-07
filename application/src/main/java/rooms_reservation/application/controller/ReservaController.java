@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import rooms_reservation.application.dto.Reserva;
+import rooms_reservation.application.model_dto.Reserva;
 import rooms_reservation.application.service.ReservaService;
 
 import java.util.List;
@@ -26,8 +26,9 @@ public class ReservaController {
 
     @GetMapping("/reservas")
     public ResponseEntity<List<Reserva>> listarReservas(){
+        List<Reserva> lista = reservaService.listarReservas();
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(lista);
     }
 
     @GetMapping("/estatisticas")
