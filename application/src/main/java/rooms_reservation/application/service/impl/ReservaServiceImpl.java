@@ -72,6 +72,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<Reserva> listarReservas(){
+        return reservaRepository.buscarTodas();
     }
 
     @Override
