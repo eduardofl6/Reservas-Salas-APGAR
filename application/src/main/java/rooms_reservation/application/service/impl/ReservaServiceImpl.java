@@ -8,6 +8,7 @@ import rooms_reservation.application.service.ReservaService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -35,19 +36,22 @@ public class ReservaServiceImpl implements ReservaService {
 
 
         if(horaInicio.isBefore(abertura) || horaInicio.isAfter(fechamento)) {
-            throw new IllegalArgumentException("O horário de início deve estar entre 08:00 e 18:00.");
+            throw new IllegalArgumentException("O horário de início deve estar entre 08:00 e 17:30.");
         }
 
         if(horaFim.isAfter(fechamento) || horaFim.isBefore(abertura)) {
-            throw new IllegalArgumentException("O horário de fim deve estar entre 08:00 e 18:00. ");
+            throw new IllegalArgumentException("O horário de fim deve estar entre 08:30 e 18:00.");
         }
 
         if(fim.isBefore(inicio)) {
             throw new IllegalArgumentException("O horário de fim deve ser posterior ao horário de início.");
         }
 
-        long duracaoMinutos = (fim.toEpochSecond() - inicio.toEpochSecond()) / 60;
-        if((duracaoMinutos < 30 || duracaoMinutos > 120)){
+        //double duracaoMinutos = (fim.toEpochSecond() - inicio.toEpochSecond()) / 60;
+        Duration duracao = Duration.between(inicio, fim);
+        Duration minimoMinutos = Duration.ofMinutes(30);
+        Duration maximoMinutos = Duration.ofMinutes(120);
+        if(duracao.compareTo(minimoMinutos) < 0 || duracao.compareTo(maximoMinutos) > 0) {
             throw new IllegalArgumentException("A reserva deve durar entre 30 minutos à 2 horas");
         }
 
@@ -114,7 +118,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public void limpar(){
-
+        reservaRepository.limpar();
     }
 
 }
