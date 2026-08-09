@@ -55,7 +55,7 @@ public class ReservaServiceImpl implements ReservaService {
         }
 
         if(inicio.isBefore(OffsetDateTime.now())){
-            throw new IllegalArgumentException("A reserva retroativas são proibidas");
+            throw new IllegalArgumentException("As reservas retroativas são proibidas");
         }
 
         if(! (inicio.getMinute() % 30 == 0 && inicio.getSecond() == 0)){

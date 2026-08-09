@@ -171,7 +171,7 @@ public class ReservaServiceImplTest {
             reservaService.salvar(reservaInvalida);
         });
 
-        assertEquals("A reserva retroativas são proibidas", exception.getMessage());
+        assertEquals("As reservas retroativas são proibidas", exception.getMessage());
         verify(reservaRepository, times(0)).salvar(reservaInvalida);
     }
 
