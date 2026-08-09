@@ -15,6 +15,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Handler global para capturar exceções e padronizar as respostas da API.
+ *
+ * O foco é evitar retornos de stack trace.
+ * Este componente intercepta desde regras de negócio quebradas (IllegalArgumentException) e
+ * falhas de parseamento do Jackson na entrada, devolvendo sempre um JSON
+ * limpo e claro e o HTTP Status semântico correto (ex: 400 ou 422).
+ */
 @RestControllerAdvice
 public class TratadorDeErros {
 
