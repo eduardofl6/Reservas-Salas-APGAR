@@ -2,15 +2,19 @@ package rooms_reservation.application.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rooms_reservation.application.model_dto.Estatisticas;
 import rooms_reservation.application.model_dto.Reserva;
 import rooms_reservation.application.service.ReservaService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReservaController {
 
     final ReservaService reservaService;
@@ -19,7 +23,15 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
 
-    @PostMapping("/reservas")
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> getHealth(){
+        Map<String, String> resposta = new HashMap<>();
+        resposta.put("status", "UP");
+
+        return ResponseEntity.status(HttpStatus.OK).body(resposta);
+    }
+
+    @PostMapping(value ="/reservas", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> criarReserva(@RequestBody @Valid Reserva reserva){
         reservaService.salvar(reserva);
         return ResponseEntity.status(HttpStatus.CREATED).build();

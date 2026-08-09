@@ -47,7 +47,6 @@ public class ReservaServiceImpl implements ReservaService {
             throw new IllegalArgumentException("O horário de fim deve ser posterior ao horário de início.");
         }
 
-        //double duracaoMinutos = (fim.toEpochSecond() - inicio.toEpochSecond()) / 60;
         Duration duracao = Duration.between(inicio, fim);
         Duration minimoMinutos = Duration.ofMinutes(30);
         Duration maximoMinutos = Duration.ofMinutes(120);
@@ -62,10 +61,6 @@ public class ReservaServiceImpl implements ReservaService {
         if(! (inicio.getMinute() % 30 == 0 && inicio.getSecond() == 0)){
             throw new IllegalArgumentException("Reservas devem ter início em intervalos de 30 minutos (ex: 10:00, 10:30)");
         }
-
-//        long inicioEmMinutos = (inicio.toEpochSecond() / 60);
-//        if(! (inicioEmMinutos % 30 == 0)){
-//        Abortado para facilitar legibilidade.
 
         reservaRepository.salvar(reserva);
     }
