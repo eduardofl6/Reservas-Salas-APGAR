@@ -1,6 +1,7 @@
 package rooms_reservation.application.performance;
 
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@Disabled("Desabilitado pois stress-tests não devem estar habilitados em contexto CI/CD")
+//Possível também marcar com Tag("stress") e executa-los em um job diferente de maneira assíncrona para fazer uso do test.
 class ReservaConcurrencyTest {
 
     @Autowired
