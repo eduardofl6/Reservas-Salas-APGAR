@@ -1,3 +1,6 @@
+Idioma: Português | [English](README.en.md)
+---
+
 # API de Reservas de Sala
 
 Uma API REST desenvolvida em Java com Spring Boot para gerenciar reservas de salas de reunião e calcular estatísticas de ocupação diária, com armazenamento de dados 100% em memória.
@@ -65,7 +68,7 @@ A documentação dos endpoints é montada pela dependência Swagger, dependênci
 http://localhost:8080/swagger-ui/index.html
 ```
 
-## 📐 Observações Relevantes sobre a Solução (Decisões de Arquitetura)
+## Observações Relevantes sobre a Solução (Decisões de Arquitetura)
 
 Decisões arquiteturais e Considerações/Trade-Offs
 
